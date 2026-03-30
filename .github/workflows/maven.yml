@@ -51,7 +51,7 @@ jobs:
           sudo cp /tmp/*.war /opt/tomcat9/webapps/ || true
           sudo systemctl restart tomcat9 || true
 
-    # 6. 🔥 IMPORTANT: Invoke Jenkins Job (YOUR REQUIRED OUTPUT)
+    # 6. IMPORTANT: Invoke Jenkins Job (YOUR REQUIRED OUTPUT)
     - name: Invoke Jenkins Deployment Job
       uses: appleboy/jenkins-action@master
       with:
