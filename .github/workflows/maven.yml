@@ -3,7 +3,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build-deploy:
@@ -11,22 +11,22 @@ jobs:
 
     steps:
 
-    # Step 1: Checkout code
+    # 1. Checkout code
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    # Step 2: Setup Java
+    # 2. Setup Java
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
         java-version: '17'
 
-    # Step 3: Build with Maven
+    # 3. Build using Maven
     - name: Build with Maven
       run: mvn clean package
 
-    # Step 4: Copy WAR to server (optional)
+    # 4. Copy WAR to server
     - name: Copy WAR to Server
       uses: appleboy/scp-action@master
       with:
@@ -37,7 +37,7 @@ jobs:
         source: "target/*.war"
         target: "/tmp/"
 
-    # Step 5: Deploy to Tomcat (IGNORE ERROR)
+    # 5. Deploy to Tomcat (DO NOT STOP PIPELINE)
     - name: Deploy to Tomcat
       continue-on-error: true
       uses: appleboy/ssh-action@master
@@ -51,7 +51,7 @@ jobs:
           sudo cp /tmp/*.war /opt/tomcat9/webapps/ || true
           sudo systemctl restart tomcat9 || true
 
-    # Step 6: Invoke Jenkins Job (MAIN STEP FOR SCREENSHOT)
+    # 6. 🔥 IMPORTANT: Invoke Jenkins Job (YOUR REQUIRED OUTPUT)
     - name: Invoke Jenkins Deployment Job
       uses: appleboy/jenkins-action@master
       with:
